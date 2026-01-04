@@ -16,9 +16,9 @@ const getQuestionPageHtmlToolDef = toolDefinition({
 });
 
 export const getQuestionPageHtmlTool = getQuestionPageHtmlToolDef.server(
-	async ({ page }: { page: number }) => {
+	async ({ page }: any) => {
 		const pageHtml = await fetch(
-			`http://localhost:3000/question_htmls/${page}.html`,
+			`https://questions-bank.kurt-jing.workers.dev/question_htmls/${page}.html`,
 		).then((res) => res.text());
 
 		return {
