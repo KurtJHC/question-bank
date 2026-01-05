@@ -48,7 +48,7 @@ export const ChatMessages = () => {
 
 	return (
 		<div className="flex flex-col gap-2 h-full">
-			<div className="flex flex-col gap-2 flex-1 max-h-[600px] overflow-y-auto">
+			<div className="flex flex-col gap-2 flex-1 max-h-[620px] overflow-y-auto">
 				{messages.map((message) => (
 					<div
 						key={message.id}
@@ -57,7 +57,7 @@ export const ChatMessages = () => {
 							message.role !== "user" && "bg-gray-100",
 						)}
 					>
-						<div className="text-sm text-gray-400 mb-2">
+						<div className="text-sm text-gray-400">
 							{message.role === "user" ? "USER: " : "AI: "}
 						</div>
 						{message.parts.map((part, i) => {

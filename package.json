@@ -10,7 +10,7 @@
     "format": "biome format",
     "lint": "biome lint",
     "check": "biome check",
-    "deploy": "npm run build && wrangler deploy",
+    "deploy": "pnpm run build && wrangler deploy",
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
@@ -20,8 +20,10 @@
     "@clerk/tanstack-react-start": "^0.27.12",
     "@cloudflare/vite-plugin": "^1.13.8",
     "@legendapp/state": "3.0.0-beta.42",
+    "@mixmark-io/domino": "^2.2.0",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-slot": "^1.2.4",
+    "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.0.6",
     "@tanstack/ai": "^0.2.0",
     "@tanstack/ai-gemini": "^0.2.0",
@@ -52,7 +54,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.4",
-    "@tailwindcss/typography": "^0.5.19",
     "@tanstack/devtools-vite": "^0.3.11",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.2.0",

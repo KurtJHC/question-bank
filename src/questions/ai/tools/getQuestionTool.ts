@@ -1,3 +1,4 @@
+import { createDocument } from "@mixmark-io/domino";
 import { toolDefinition } from "@tanstack/ai";
 import * as cheerio from "cheerio";
 import TurndownService from "turndown";
@@ -18,13 +19,13 @@ const getQuestionPageHtmlToolDef = toolDefinition({
 
 export const getQuestionPageHtmlTool = getQuestionPageHtmlToolDef.server(
 	async ({ page }: any) => {
-		const turndownService = new TurndownService();
+		// const turndownService = new TurndownService();
 		const pageHtml = await fetch(
 			`https://kurtjhc.github.io/question-bank/public/question_htmls/${page}.html`,
 		).then((res) => res.text());
-		const markdown = turndownService.turndown(pageHtml);
+		// const markdown = turndownService.turndown(pageHtml);
 		return {
-			pageHtml: markdown,
+			pageHtml,
 		};
 	},
 );
@@ -37,8 +38,12 @@ export const getQuestionHtml = async ({
 	const pageHtml = await fetch(pageUrl).then((res) => res.text());
 	const $ = cheerio.load(pageHtml);
 	const questionHtml = $(`#question-${questionId}`).html();
-	const turndownService = new TurndownService();
-	const markdown = turndownService.turndown(questionHtml ?? "");
+	const htmlDocument = createDocument(questionHtml ?? "");
+	const turndownService = new TurndownService({
+		hr: "---",
+		codeBlockStyle: "fenced",
+	});
+	const markdown = turndownService.turndown(htmlDocument);
 
 	return {
 		questionHtml: markdown,

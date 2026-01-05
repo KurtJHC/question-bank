@@ -17,6 +17,19 @@ const config = defineConfig({
     tailwindcss(),
     tanstackStart(),
     viteReact(),
+    {
+      name: 'replace-domino-require',
+      enforce: 'pre',
+      transform(code, id) {
+        if (!id || !id.includes('node_modules/turndown')) return null;
+        const pattern = /require\(['"]@mixmark-io\/domino['"]\)/g;
+        if (pattern.test(code)) {
+          const replaced = code.replace(pattern, 'undefined');
+          return { code: replaced, map: null };
+        }
+        return null;
+      },
+    },
   ],
 })
 
