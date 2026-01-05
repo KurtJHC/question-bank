@@ -1,7 +1,13 @@
 import { useValue } from "@legendapp/state/react";
 import { useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
 import { ChatMessages } from "./ChatMessages";
 import { QuestionSelect, selectedQuestionId$ } from "./QuestionSelect";
 
@@ -19,6 +25,9 @@ export function ChatDialog() {
 				<Button variant="outline">AI Chat</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-[90%]">
+				<DialogHeader>
+					<DialogTitle></DialogTitle>
+				</DialogHeader>
 				{selectedQuestionId ? <ChatMessages /> : <QuestionSelect />}
 			</DialogContent>
 		</Dialog>

@@ -48,7 +48,7 @@ const groqHandler = async ({ request }: { request: Request }) => {
 		model: groq("meta-llama/llama-4-maverick-17b-128e-instruct"),
 		messages: await convertToModelMessages(messages),
 		system:
-			"You are a tutor, help the user answer the questions. Answer in markdown format.",
+			"You are a tutor, help the user understand the question; You can use the tools to get the question markdown; Read text in images if available; Respond in markdown format;",
 		tools: {
 			questionFetcher: getQuestionToolConfig,
 		},

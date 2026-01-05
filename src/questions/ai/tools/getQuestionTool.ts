@@ -30,7 +30,7 @@ export const getQuestionPageHtmlTool = getQuestionPageHtmlToolDef.server(
 	},
 );
 
-export const getQuestionHtml = async ({
+export const getQuestion = async ({
 	page,
 	questionId,
 }: z.infer<typeof inputSchema>) => {
@@ -38,15 +38,20 @@ export const getQuestionHtml = async ({
 	const pageHtml = await fetch(pageUrl).then((res) => res.text());
 	const $ = cheerio.load(pageHtml);
 	const questionHtml = $(`#question-${questionId}`).html();
+	const images = $(`#question-${questionId} img`)
+		.map((i, img) => $(img).attr("src"))
+		.get();
+
 	const htmlDocument = createDocument(questionHtml ?? "");
 	const turndownService = new TurndownService({
 		hr: "---",
 		codeBlockStyle: "fenced",
 	});
-	const markdown = turndownService.turndown(htmlDocument);
+	const questionMarkdown = turndownService.turndown(htmlDocument);
 
 	return {
-		questionHtml: markdown,
+		questionMarkdown,
+		images,
 	};
 };
 
@@ -60,7 +65,29 @@ const inputSchema = z.object({
 });
 
 export const getQuestionToolConfig = {
-	description: "Get the question html from API",
+	description: "Get the question markdown from API",
 	inputSchema,
-	execute: getQuestionHtml,
+	execute: getQuestion,
+	toModelOutput: (result: {
+		output: { questionMarkdown: string; images: string[] };
+	}) => {
+		const messages: any[] = [
+			{
+				type: "text",
+				text: result.output.questionMarkdown,
+			},
+		];
+
+		for (const image of result.output.images) {
+			messages.push({
+				type: "image-url",
+				url: image,
+			});
+		}
+
+		return {
+			type: "content",
+			value: messages,
+		};
+	},
 };

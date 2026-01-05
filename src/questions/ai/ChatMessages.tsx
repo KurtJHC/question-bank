@@ -76,8 +76,8 @@ export const ChatMessages = () => {
 											id={message.id}
 											key={`${message.id}-${part.toolCallId}-${i}`}
 											output={
-												(part.output as { questionHtml: string }) ?? {
-													questionHtml: "",
+												(part.output as { questionMarkdown: string }) ?? {
+													questionMarkdown: "",
 												}
 											}
 										/>
