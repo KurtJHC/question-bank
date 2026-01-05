@@ -1,7 +1,12 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "questions-bank",
-  "compatibility_date": "2025-11-02",
-  "compatibility_flags": ["nodejs_compat"],
-  "main": "@tanstack/react-start/server-entry"
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "questions-bank",
+	"compatibility_date": "2025-11-02",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"main": "@tanstack/react-start/server-entry",
+	"vars": {
+		"VITE_CLERK_PUBLISHABLE_KEY": "pk_test_ZnJhbmstZ2F6ZWxsZS04Ny5jbGVyay5hY2NvdW50cy5kZXYk"
+	}
 }
