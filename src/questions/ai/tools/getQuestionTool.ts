@@ -1,5 +1,6 @@
 import { toolDefinition } from "@tanstack/ai";
 import * as cheerio from "cheerio";
+import TurndownService from "turndown";
 import { z } from "zod";
 
 const getQuestionPageHtmlToolDef = toolDefinition({
@@ -17,33 +18,34 @@ const getQuestionPageHtmlToolDef = toolDefinition({
 
 export const getQuestionPageHtmlTool = getQuestionPageHtmlToolDef.server(
 	async ({ page }: any) => {
+		const turndownService = new TurndownService();
 		const pageHtml = await fetch(
-			`https://questions-bank.kurt-jing.workers.dev/question_htmls/${page}.html`,
+			`https://kurtjhc.github.io/question-bank/public/question_htmls/${page}.html`,
 		).then((res) => res.text());
-
+		const markdown = turndownService.turndown(pageHtml);
 		return {
-			pageHtml,
+			pageHtml: markdown,
 		};
 	},
 );
 
 export const getQuestionHtml = async ({
-	host,
 	page,
 	questionId,
 }: z.infer<typeof inputSchema>) => {
-	const pageUrl = `${host}/question_htmls/${page}.html`;
+	const pageUrl = `https://kurtjhc.github.io/question-bank/public/question_htmls/${page}.html`;
 	const pageHtml = await fetch(pageUrl).then((res) => res.text());
 	const $ = cheerio.load(pageHtml);
 	const questionHtml = $(`#question-${questionId}`).html();
+	const turndownService = new TurndownService();
+	const markdown = turndownService.turndown(questionHtml ?? "");
 
 	return {
-		questionHtml,
+		questionHtml: markdown,
 	};
 };
 
 const inputSchema = z.object({
-	host: z.url().describe("The current url"),
 	page: z
 		.string()
 		.describe("The page number of the question to get the html from"),

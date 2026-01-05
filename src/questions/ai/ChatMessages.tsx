@@ -65,6 +65,7 @@ export const ChatMessages = () => {
 								case "text":
 									return (
 										<MessageTextContentPart
+											id={message.id}
 											key={`${message.id}-${i}`}
 											text={part.text}
 										/>
@@ -72,6 +73,7 @@ export const ChatMessages = () => {
 								case "tool-questionFetcher":
 									return (
 										<MessageQuestionPart
+											id={message.id}
 											key={`${message.id}-${part.toolCallId}-${i}`}
 											output={
 												(part.output as { questionHtml: string }) ?? {
@@ -113,7 +115,7 @@ export const ChatMessages = () => {
 					variant="outline"
 					onClick={() => {
 						sendMessage({
-							text: `Provide answer for question ${selectedQuestionId} on page ${pageNumber} host is ${location.origin}`,
+							text: `Provide answer for question ${selectedQuestionId} on page ${pageNumber}`,
 						});
 					}}
 				>
